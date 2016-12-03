@@ -61,7 +61,7 @@ function compose_node(composer::Composer, parent::(@compat Union{Node, Void}),
     end
 
     anchor = event.anchor
-    if !is(anchor, nothing)
+    if anchor !== nothing
         if haskey(composer.anchors, anchor)
             throw(ComposerError(
                 "found duplicate anchor $(anchor); first occurance",
@@ -93,7 +93,7 @@ function compose_scalar_node(composer::Composer, anchor::(@compat Union{Abstract
 
     node = ScalarNode(tag, event.value, event.start_mark, event.end_mark,
                       event.style)
-    if !is(anchor, nothing)
+    if anchor !== nothing
         composer.anchors[anchor] = node
     end
 
@@ -111,7 +111,7 @@ function compose_sequence_node(composer::Composer, anchor::(@compat Union{Abstra
 
     node = SequenceNode(tag, Any[], start_event.start_mark, nothing,
                         start_event.flow_style)
-    if !is(anchor, nothing)
+    if anchor !== nothing
         composer.anchors[anchor] = node
     end
 
@@ -138,7 +138,7 @@ function compose_mapping_node(composer::Composer, anchor::(@compat Union{Abstrac
 
     node = MappingNode(tag, Any[], start_event.start_mark, nothing,
                        start_event.flow_style)
-    if !is(anchor, nothing)
+    if anchor !== nothing
         composer.anchors[anchor] = node
     end
 

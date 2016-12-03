@@ -211,7 +211,7 @@ function construct_yaml_float(constructor::Constructor, node::Node)
     end
 
     m = match(r"^([+\-]?)\.inf$", value)
-    if !is(m, nothing)
+    if m !== nothing
         if m.captures[1] == "-"
             return -Inf
         else
@@ -267,7 +267,7 @@ function construct_yaml_timestamp(constructor::Constructor, node::Node)
     end
 
     ms = 0
-    if !is(mat.captures[7], nothing)
+    if mat.captures[7] !== nothing
         ms = mat.captures[7]
         if length(ms) > 3
             ms = ms[1:3]
@@ -278,11 +278,11 @@ function construct_yaml_timestamp(constructor::Constructor, node::Node)
     delta_hr = 0
     delta_mn = 0
 
-    if !is(mat.captures[9], nothing)
+    if mat.captures[9] !== nothing
         delta_hr = parse(Int, mat.captures[9])
     end
 
-    if !is(mat.captures[10], nothing)
+    if mat.captures[10] !== nothing
         delta_mn = parse(Int, mat.captures[10])
     end
 

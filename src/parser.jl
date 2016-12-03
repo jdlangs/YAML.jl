@@ -40,7 +40,7 @@ function peek(stream::EventStream)
     if stream.next_event === nothing
         if stream.state === nothing
             return nothing
-        elseif !is(stream.end_of_stream, nothing)
+        elseif stream.end_of_stream !== nothing
             stream.state = nothing
             return stream.end_of_stream
         else
@@ -59,7 +59,7 @@ function forward!(stream::EventStream)
     if stream.next_event === nothing
         if stream.state === nothing
             nothing
-        elseif !is(stream.end_of_stream, nothing)
+        elseif stream.end_of_stream !== nothing
             stream.state = nothing
             return stream.end_of_stream
         else
@@ -79,7 +79,7 @@ function process_directives(stream::EventStream)
     while typeof(peek(stream.input)) == DirectiveToken
         token = forward!(stream.input)
         if token.name == "YAML"
-            if !is(stream.yaml_version, nothing)
+            if stream.yaml_version !== nothing
                 throw(ParserError(nothing, nothing,
                                   "found duplicate YAML directive",
                                   token.start_mark))
@@ -101,7 +101,7 @@ function process_directives(stream::EventStream)
         end
     end
 
-    if !is(stream.tag_handles, nothing)
+    if stream.tag_handles !== nothing
         value = stream.yaml_version, copy(stream.tag_handles)
     else
         value = stream.yaml_version, nothing
@@ -257,9 +257,9 @@ function parse_node(stream::EventStream; block=false, indentless_sequence=false)
         end
     end
 
-    if !is(tag, nothing)
+    if tag !== nothing
         handle, suffix = tag
-        if !is(handle, nothing)
+        if handle !== nothing
             if !haskey(stream.tag_handles, handle)
                 throw(ParserError("while parsing a node", start_mark,
                                   "found undefined tag handle $(handle)",
@@ -317,7 +317,7 @@ function parse_node(stream::EventStream; block=false, indentless_sequence=false)
             event = MappingStartEvent(start_mark, end_mark, anchor, tag,
                                       implicit, false)
             stream.state = parse_block_mapping_first_key
-        elseif !is(anchor, nothing) || !is(tag, nothing)
+        elseif anchor !== nothing || tag !== nothing
             event = ScalarEvent(start_mark, end_mark, anchor, tag,
                                 (implicit, false), "")
             stream.state = pop!(stream.states)
