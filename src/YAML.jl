@@ -12,6 +12,8 @@ include("scanner.jl")
 include("parser.jl")
 include("composer.jl")
 include("constructor.jl")
+include("representer.jl")
+include("presentations.jl")
 
 const _constructor = Union{Void,Dict}
 

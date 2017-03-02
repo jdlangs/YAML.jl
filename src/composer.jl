@@ -98,8 +98,8 @@ function compose_scalar_node(composer::Composer, anchor::Union{AbstractString, V
                       event.value, event.implicit)
     end
 
-    node = ScalarNode(tag, event.value, event.start_mark, event.end_mark,
-                      event.style)
+    node = ScalarNode(tag, event.value, event.start_mark, event.end_mark)
+                      #event.style)
     if anchor !== nothing
         composer.anchors[anchor] = node
     end
@@ -116,8 +116,8 @@ function compose_sequence_node(composer::Composer, anchor::Union{AbstractString,
                       nothing, start_event.implicit)
     end
 
-    node = SequenceNode(tag, Any[], start_event.start_mark, nothing,
-                        start_event.flow_style)
+    node = SequenceNode(tag, Any[], start_event.start_mark, nothing)
+                        #start_event.flow_style)
     if anchor !== nothing
         composer.anchors[anchor] = node
     end
@@ -143,8 +143,8 @@ function compose_mapping_node(composer::Composer, anchor::Union{AbstractString, 
                       nothing, start_event.implicit)
     end
 
-    node = MappingNode(tag, Any[], start_event.start_mark, nothing,
-                       start_event.flow_style)
+    node = MappingNode(tag, Any[], start_event.start_mark, nothing)
+                       #start_event.flow_style)
     if anchor !== nothing
         composer.anchors[anchor] = node
     end
