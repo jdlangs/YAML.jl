@@ -100,13 +100,17 @@ end
 
 
 const testdir = dirname(@__FILE__)
-@testset for test in tests
+@testset "$test" for test in tests
     data = YAML.load_file(
         joinpath(testdir, string(test, ".data")),
         more_constructors
     )
     expected = evalfile(joinpath(testdir, string(test, ".expected")))
     @test equivalent(data, expected)
+
+    dumped = YAML.dump(data)
+    reloaded_data = YAML.load(dumped)
+    @test equivalent(data, reloaded_data)
 end
 
 end  # module

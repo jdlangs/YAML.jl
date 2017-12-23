@@ -12,8 +12,8 @@ include("scanner.jl")
 include("parser.jl")
 include("composer.jl")
 include("constructor.jl")
-include("representer.jl")
-include("presentations.jl")
+include("represent.jl")
+include("present.jl")
 
 const _constructor = Union{Void,Dict}
 
@@ -79,6 +79,11 @@ function load_all_file(filename::AbstractString, more_constructors::_constructor
     open(filename, "r") do input
         load_all(input, more_constructors)
     end
+end
+
+function dump(data)
+    node = represent(data)
+    return present_node(node)
 end
 
 end  # module
